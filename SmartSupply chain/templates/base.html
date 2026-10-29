@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SmartSupply{% endblock %} · SmartSupply</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css', v=3) }}"><script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-icon">S</span><span>smart<span class="brand-light">supply</span></span></a>
+  <div class="workspace-label">WORKSPACE</div>
+  <nav class="nav-list">
+    <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}"><span class="nav-icon">◫</span> Overview</a>
+    <div class="nav-section">SUPPLY CHAIN</div>
+    <a class="nav-link {% if request.endpoint == 'suppliers' %}active{% endif %}" href="{{ url_for('suppliers') }}"><span class="nav-icon">♧</span> Suppliers</a>
+    <a class="nav-link {% if request.endpoint == 'procurement' %}active{% endif %}" href="{{ url_for('procurement') }}"><span class="nav-icon">▤</span> Procurement</a>
+    <a class="nav-link {% if request.endpoint == 'inventory' %}active{% endif %}" href="{{ url_for('inventory') }}"><span class="nav-icon">▦</span> Inventory {% if low_stock_count %}<span class="nav-badge">{{ low_stock_count }}</span>{% endif %}</a>
+    <a class="nav-link {% if request.endpoint == 'deliveries' %}active{% endif %}" href="{{ url_for('deliveries') }}"><span class="nav-icon">⇢</span> Deliveries</a>
+    <div class="nav-section">INSIGHTS</div>
+    <a class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}" href="{{ url_for('reports') }}"><span class="nav-icon">▥</span> Reports</a>
+    <a class="nav-link {% if request.endpoint == 'assistant' %}active{% endif %}" href="{{ url_for('assistant') }}"><span class="nav-icon">✳</span> AI insights</a>
+  </nav>
+  <div class="sidebar-bottom"><div class="help-card"><div class="help-mark">✳</div><strong>Need a hand?</strong><p>Your supply chain team is here to help.</p><a href="mailto:support@smartsupply.example">Get support <span>↗</span></a></div><div class="profile"><div class="avatar">JD</div><div class="profile-copy"><strong>Jordan Davis</strong><small>Operations Manager</small></div><span class="profile-more">•••</span></div></div>
+</aside>
+<main class="main-area"><header class="topbar"><button class="mobile-menu" id="menu-toggle" aria-label="Toggle menu">☰</button><div class="breadcrumbs">Workspace <span>/</span> <strong>{% block crumb %}Overview{% endblock %}</strong></div><div class="top-actions"><span class="today-label">{{ now_label }}</span><button class="icon-button notification" aria-label="Notifications">♧<i></i></button><div class="top-avatar">JD</div></div></header>
+<div class="page-wrap">{% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="flash-stack">{% for category,message in messages %}<div class="flash {{ category }}">{{ message }}<button class="flash-close" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}{% endwith %}{% block content %}{% endblock %}<footer class="footer">© {{ year }} SmartSupply <span>·</span> Smarter operations start here.</footer></div></main>
+</body></html>
